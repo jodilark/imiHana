@@ -1,7 +1,7 @@
 {
-  "name": "imaHana",
+  "name": "imiHana",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -14,8 +14,7 @@
     "body-parser": "^1.17.2",
     "cors": "^2.8.3",
     "express": "^4.15.3",
-    "express-session": "^1.15.3",
-    "express-sessions": "^1.0.6",
+    "express-session": "^1.15.4",
     "gulp-babel": "^6.1.2",
     "gulp-cachebust": "0.0.6",
     "gulp-concat": "^2.6.1",
@@ -23,7 +22,7 @@
     "gulp-sass": "^3.1.0",
     "gulp-sourcemaps": "^2.6.0",
     "gulp-uglify": "^3.0.0",
-    "massive": "^3.0.0-rc1",
+    "massive": "^3.0.0",
     "passport": "^0.3.2",
     "passport-auth0": "^0.6.0"
   }

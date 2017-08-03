@@ -8,30 +8,35 @@ var gulp = require('gulp')
     , print = require('gulp-print')
     , uglify = require('gulp-uglify')
 
+var gulpPath = {
+    jsSource: ['./public/js/app.js','./public/js/**/*.js']
+    ,scss: ['./public/styles/reset.scss','./public/styles/*.*css', './public/styles/fonts/*.*css']
+}
 
 gulp.task ('hello', function (){
     console.log("hello gulp is on")
 })
 
+
 gulp.task ('build-css', function (){
-    return gulp.src('./styles/*') 
+    return gulp.src(gulpPath.scss) 
         .pipe(sourcemaps.init())
         .pipe(sass())
         .pipe(cachebust.resources())
         .pipe(concat('styles.css'))
         .pipe(sourcemaps.write('./maps'))
-        .pipe(gulp.dest('./dist'))
+        .pipe(gulp.dest('./public/dist'))
 })
 
 gulp.task('build-js', function() {
-   return gulp.src('js/**/*.js')               
+   return gulp.src(gulpPath.jsSource)               
       .pipe(sourcemaps.init())
       .pipe(print())                        
       .pipe(babel({ presets: ['es2015'] }))
       .pipe(concat('bundle.js'))
       //.pipe(uglify())
       .pipe(sourcemaps.write('./')) 
-      .pipe(gulp.dest('./dist/js')); 
+      .pipe(gulp.dest('./public/dist/js')); 
 });
 
 gulp.task('build', ['build-css', 'build-js'], function() {
@@ -41,5 +46,6 @@ gulp.task('build', ['build-css', 'build-js'], function() {
 });
 
 gulp.task('watch', function() {
-    return gulp.watch(['./index.html','./partials/*.html', './styles/*.*css', './js/**/*.js'], ['build']);
+    gulp.watch(gulpPath.scss, ['build']);
+    gulp.watch(gulpPath.jsSource, ['build']);
 });
