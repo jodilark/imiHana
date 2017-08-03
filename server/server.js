@@ -15,10 +15,10 @@ const port = config.port
 
 //  »»»»»»»»»»»»»»»»»»»║   MIDDLEWARE
 const app = express()
-app.use(express.static('../public'))
+// console.log(app)
+app.use(express.static('./public'))
 app.use(bodyParser.json())
 app.use(cors())
-
 
 // .................... database
 massive(config.dbURLString).then(db => {
