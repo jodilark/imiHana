@@ -1,4 +1,3 @@
-
 -- SCHEMA DELETE
 	DROP TABLE IF EXISTS users CASCADE;
 
@@ -9,5 +8,6 @@
 		id serial primary key
 		, first_name varchar
         , last_name varchar
+		, auth_token varchar
 	);
-	INSERT INTO users (first_name, last_name) VALUES ('Jodi', 'Parker');
+	INSERT INTO users (first_name, last_name, auth_token) VALUES ('Jodi', 'Parker', 'fakeAuth');

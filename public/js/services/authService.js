@@ -1,8 +1,12 @@
 angular.module('app').service('authService', function ($http) {
-    // »»»»»»»»»»»»»»»»»»»║ TESTS
+//      ╔══════════════════════════════════════╗
+//      ║                TESTS                 ║
+//      ╚══════════════════════════════════════╝
     this.authServiceTest = 'the authService is connected'
 
-    // »»»»»»»»»»»»»»»»»»»║ ENDPOINTS
+//      ╔══════════════════════════════════════╗
+//      ║              END POINTS              ║
+//      ╚══════════════════════════════════════╝
     this.logMeIn = () => $http.get('/auth', 'Access-Control-Allow-Origin').then(response => res.send('ok'))
     this.logout = () => $http.get('/auth/logout').then(response => window.location = response.data)
 })
