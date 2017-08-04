@@ -9,4 +9,12 @@ angular.module('app').controller('mainCtrl', function ($scope, authService) {
 //      ║              VARIABLES               ║
 //      ╚══════════════════════════════════════╝
 
+//      ╔══════════════════════════════════════╗
+//      ║                Magic                 ║
+//      ╚══════════════════════════════════════╝
+    $scope.logout = _ => {
+        console.log(`clicked`)
+        authService.logout()
+    }
+
 })

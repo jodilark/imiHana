@@ -15,16 +15,29 @@
     <!--╔══════════════════════════════════════╗-->
     <!--║                TESTS                 ║-->
     <!--╚══════════════════════════════════════╝-->
-        <ul class='tests'>
-            <li>mainCtrl: {{mainCtrlTest}}</li>
-            <li>authSrv: {{authServiceTest}}</li>
-        </ul>
-    
-    
+    <ul class='tests'>
+        <li>mainCtrl: {{mainCtrlTest}}</li>
+        <li>authSrv: {{authServiceTest}}</li>
+    </ul>
+
+
     <div>
-        <h1>Hello World</h1>
+        <h1 ui-sref="home">Hello World this is where the navbar will go</h1>
+        <button ui-sref='browse'>Click-bait for browse</button>
+        <button ui-sref='orders' class='fa fa-github'>Order UP!</button>
+        <a href="/api/auth">Login|Sign-up</a>
+        <button ng-click='logout()'>Logout</button>
+        <button ui-sref='cart'>Cart</button>
     </div>
 
+    <!--╔══════════════════════════════════════╗-->
+    <!--║               Router                 ║-->
+    <!--╚══════════════════════════════════════╝-->
+    <ui-view></ui-view>
+
+    <div>
+        <h1>I'll be the footer when i grow up!</h1>
+    </div>
 
     <!--╔══════════════════════════════════════╗-->
     <!--║               SCRIPTS                ║-->

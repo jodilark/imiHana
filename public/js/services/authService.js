@@ -7,6 +7,5 @@ angular.module('app').service('authService', function ($http) {
 //      ╔══════════════════════════════════════╗
 //      ║              END POINTS              ║
 //      ╚══════════════════════════════════════╝
-    this.logMeIn = () => $http.get('/auth', 'Access-Control-Allow-Origin').then(response => res.send('ok'))
-    this.logout = () => $http.get('/auth/logout').then(response => window.location = response.data)
+    this.logout = () => $http.get('/api/auth/logout').then(response => window.location.href = '/')
 })

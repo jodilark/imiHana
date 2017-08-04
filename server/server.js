@@ -80,14 +80,14 @@ passport.deserializeUser((userB, done) => {
 });
 //  ................  auth callbacks and routing
 app.get('/api/auth', passport.authenticate('auth0'));
-app.get('/api/auth/callback', passport.authenticate('auth0', { successRedirect: `http://${config.frontEndURL}:${config.frontEndPort}/api/auth/me` }), (req, res) => res.status(200).send(req.user))
+app.get('/api/auth/callback', passport.authenticate('auth0', { successRedirect: `http://${config.frontEndURL}:${config.frontEndPort}/#!/orders` }), (req, res) => res.status(200).send(req.user))
 app.get('/api/auth/me', (req, res) => { //THIS IS WHATEVER VALUE WE GOT FROM userC variable above.
   if (!req.user) return res.sendStatus(404);
   res.status(200).send(req.user);
 })
 app.get('/api/auth/logout', (req, res) => {
   req.logout();
-  res.redirect('/');
+  res.redirect('/')
 })
 
 //      ╔══════════════════════════════════════╗
