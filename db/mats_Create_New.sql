@@ -1,0 +1,1 @@
+INSERT INTO materials (type) VALUES ($1);

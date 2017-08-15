@@ -1,0 +1,1 @@
+INSERT INTO sizes (orientation, width, height) VALUES ($1, $2, $3);

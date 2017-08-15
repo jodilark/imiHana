@@ -1,0 +1,1 @@
+INSERT INTO shipping_type (type) VALUES ($1);

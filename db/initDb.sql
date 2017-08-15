@@ -106,8 +106,8 @@
 	-- Sizes
 		CREATE TABLE IF NOT EXISTS sizes
 		(
-			id serial primary key	
-			, length int
+			id serial primary key
+			, orientation varchar
 			, width int
 			, height int
 		);
