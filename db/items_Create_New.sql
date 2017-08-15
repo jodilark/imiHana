@@ -1,0 +1,1 @@
+INSERT INTO items (name, description, price, for_sale, uri) VALUES ($1, $2, $3, $4, $5);

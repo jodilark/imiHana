@@ -18,6 +18,7 @@ const dbCtrl = require('./controllers/dbCtrl')
 const sizesCtrl = require('./controllers/sizesCtrl')
 const matsCtrl = require('./controllers/materialsCtrl')
 const shipCtrl = require('./controllers/shippingTypeCtrl')
+const itemsCtrl = require('./controllers/itemsCtrl')
 
 //      ╔══════════════════════════════════════╗
 //      ║              VARIABLES               ║
@@ -114,27 +115,32 @@ massive(config.dbURLString).then(db => app.set('db', db), console.log(`connected
     app.post('/api/ship', shipCtrl.createNewShip)
     app.put('/api/ship/:id', shipCtrl.updateShip)
     app.delete('/api/ship/:id', shipCtrl.deleteShip)
+  // ............| ITEMS ENDPOINTS
+    app.get('/api/items', itemsCtrl.getItemsList)
+    app.get('/api/items/:id', itemsCtrl.getItem)
+    app.post('/api/items', itemsCtrl.createNewItem)
+    app.put('/api/items/:id', itemsCtrl.updateItem)
+    app.delete('/api/items/:id', itemsCtrl.deleteItem)
 
 //      ╔══════════════════════════════════════╗
 //      ║                TESTS                 ║
 //      ╚══════════════════════════════════════╝
-  // »»»»»»»»»»»»»»»»»»»║  USER ENDPOINT TESTS
   // ............| Example user update object:
   const updateUserObj = { "first_name": "Lark", "last_name": "Huynh", "phone": "801-699-3049", "email": "jodilarkparker@yahoo.com", "d_ship_id": null, "d_bill_id": null, "admin": false }
 
-  // »»»»»»»»»»»»»»»»»»»║  SIZE ENDPOINT TESTS
   // ............| Example sizes create/update object:
   const SizeObj = { "type": "Portrait", "width": 4, "height": 10 }
 
-  // »»»»»»»»»»»»»»»»»»»║  MATERIALS ENDPOINT TESTS
   // ............| Example Materials create/update object:
   const MaterialObj = { "type": "Pillow" }
 
-  // »»»»»»»»»»»»»»»»»»»║  SHIPPING TYPES ENDPOINT TESTS
   // ............| Example shipping type create/update object:
   const shipObj = { "type": "Same Day" }
+
+  // ............| Example item create/update object:
+  const itemObj = { "name": "Sunny Day" , "description": "beautiful piece of work", "price": 54.99, "for_sale": true, "uri": "http://www.hillsidedentalfineart.com/images/arts/far-away-inet.jpg" }
 
 
 
 //db and node echo
-app.listen(port, () => console.log(`listening on port ${port}`))
+app.listen(port, _ => console.log(`listening on port ${port}`))

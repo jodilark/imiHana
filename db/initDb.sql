@@ -59,6 +59,7 @@
 			, description varchar(500)
 			, price int
 			, for_sale boolean
+			, uri text
 		);
 
 	-- Orders
