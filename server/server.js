@@ -19,6 +19,8 @@ const sizesCtrl = require('./controllers/sizesCtrl')
 const matsCtrl = require('./controllers/materialsCtrl')
 const shipCtrl = require('./controllers/shippingTypeCtrl')
 const itemsCtrl = require('./controllers/itemsCtrl')
+const statesCtrl = require('./controllers/statesCtrl')
+const countryCtrl = require('./controllers/countryCtrl')
 
 //      ╔══════════════════════════════════════╗
 //      ║              VARIABLES               ║
@@ -121,6 +123,23 @@ massive(config.dbURLString).then(db => app.set('db', db), console.log(`connected
     app.post('/api/items', itemsCtrl.createNewItem)
     app.put('/api/items/:id', itemsCtrl.updateItem)
     app.delete('/api/items/:id', itemsCtrl.deleteItem)
+
+  // ............| STATE ENDPOINTS
+    app.get('/api/states', statesCtrl.getStatesList)
+    app.get('/api/states/:id', statesCtrl.getState)
+    // ............| COUNTRY ENDPOINTS
+    app.get('/api/countries', countryCtrl.getCountriesList)
+    app.get('/api/countries/:id', countryCtrl.getCountry)
+  // ............| ORDERS ENDPOINTS
+    //get by user id
+    //get by order id
+    //create new
+    //update existing
+    //delete
+  // ............| ORDER ITEM ENDPOINTS
+  // ............| ITEM MATERIALS ENDPOINTS
+  // ............| ITEM SIZES ENDPOINTS
+
 
 //      ╔══════════════════════════════════════╗
 //      ║                TESTS                 ║
