@@ -67,8 +67,9 @@
 		(
 			id serial primary key
 			, internal_id varchar
-			, tax int
-			, final_total int
+			, tax real
+			, final_total real
+			, open boolean
 		);
 
 	-- Order Items
@@ -109,8 +110,8 @@
 		(
 			id serial primary key
 			, orientation varchar
-			, width int
-			, height int
+			, width real
+			, height real
 		);
 
 	--add foreign keys

@@ -22,6 +22,7 @@ const itemsCtrl = require('./controllers/itemsCtrl')
 const statesCtrl = require('./controllers/statesCtrl')
 const countryCtrl = require('./controllers/countryCtrl')
 const addressCtrl = require('./controllers/addressCtrl')
+const ordersCtrl = require('./controllers/ordersCtrl')
 
 //      ╔══════════════════════════════════════╗
 //      ║              VARIABLES               ║
@@ -124,8 +125,7 @@ massive(config.dbURLString).then(db => app.set('db', db), console.log(`connected
   app.get('/api/items/:id', itemsCtrl.getItem)
   app.post('/api/items', itemsCtrl.createNewItem)
   app.put('/api/items/:id', itemsCtrl.updateItem)
-  app.delete('/api/items/:id', itemsCtrl.deleteItem)
-  
+  app.delete('/api/items/:id', itemsCtrl.deleteItem)  
   // ............| STATE ENDPOINTS
   app.get('/api/states', statesCtrl.getStatesList)
   app.get('/api/states/:id', statesCtrl.getState)
@@ -140,11 +140,13 @@ massive(config.dbURLString).then(db => app.set('db', db), console.log(`connected
   app.put('/api/addresses/:id', addressCtrl.updateAddress)
   app.delete('/api/addresses/:id', addressCtrl.deleteAddress)
   // ............| ORDERS ENDPOINTS
-  //get by user id
-  //get by order id
-  //create new
-  //update existing
-  //delete
+  app.get('/api/orders/', ordersCtrl.getOrdersList)
+  app.get('/api/orders/open/:bool', ordersCtrl.getOrdersStatus)
+  app.get('/api/orders/user/:id', ordersCtrl.getOrderUid)
+  app.get('/api/orders/:id', ordersCtrl.getOrder)
+  app.post('/api/orders', ordersCtrl.createNewOrder)
+  app.put('/api/orders/:id', ordersCtrl.updateOrder)
+  app.delete('/api/orders/:id', ordersCtrl.deleteOrder)
   // ............| ORDER ITEM ENDPOINTS
   // ............| ITEM MATERIALS ENDPOINTS
   // ............| ITEM SIZES ENDPOINTS
@@ -172,6 +174,9 @@ massive(config.dbURLString).then(db => app.set('db', db), console.log(`connected
 
   // ............| Example address create/update object:
   const addressObj = { "address_1": "6225 oak lane", "address_2": "suite 2", "city": "Denver", "zip": "65455", "state_id": 4, "country_id": 1 }
+
+  // ............| Example ordder create/update object:
+  const orderObj = { "internal_id": "Parker-123", "tax": 6.25, "final_total": 37.20, "open": true, "user_id": 1, "ship_id": 1 , "bill_id": 1, "ship_method": 1 }
 
 
 
