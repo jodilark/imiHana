@@ -75,8 +75,9 @@
 	-- Order Items
 		CREATE TABLE IF NOT EXISTS order_items
 		(
-			qty int
-			, pre_tax_total int
+			id serial primary key
+			, qty int
+			, pre_tax_total real
 		);
 
 	-- Shipping Methods
@@ -89,13 +90,13 @@
 	-- Item materials
 		CREATE TABLE IF NOT EXISTS item_materials
 		(
-
+			id serial primary key
 		);
 
 	-- Item sizes
 		CREATE TABLE IF NOT EXISTS item_sizes
 		(
-
+			id serial primary key
 		);
 
 	-- Materials

@@ -23,6 +23,7 @@ const statesCtrl = require('./controllers/statesCtrl')
 const countryCtrl = require('./controllers/countryCtrl')
 const addressCtrl = require('./controllers/addressCtrl')
 const ordersCtrl = require('./controllers/ordersCtrl')
+const orderItemsCtrl = require('./controllers/orderItemsCtrl')
 
 //      ╔══════════════════════════════════════╗
 //      ║              VARIABLES               ║
@@ -148,6 +149,12 @@ massive(config.dbURLString).then(db => app.set('db', db), console.log(`connected
   app.put('/api/orders/:id', ordersCtrl.updateOrder)
   app.delete('/api/orders/:id', ordersCtrl.deleteOrder)
   // ............| ORDER ITEM ENDPOINTS
+  app.get('/api/orderItems', orderItemsCtrl.getOrderItemList)
+  app.get('/api/orderItems/:id', orderItemsCtrl.getOrderItemById)
+  app.get('/api/orderItems/order/:id', orderItemsCtrl.getOrderItemByOid)
+  app.post('/api/orderItems', orderItemsCtrl.createNewOrderItem)
+  app.put('/api/orderItems/:id', orderItemsCtrl.updateOrderItem)
+  app.delete('/api/orderItems/:id', orderItemsCtrl.deleteOrderItem)
   // ............| ITEM MATERIALS ENDPOINTS
   // ............| ITEM SIZES ENDPOINTS
   
@@ -175,9 +182,11 @@ massive(config.dbURLString).then(db => app.set('db', db), console.log(`connected
   // ............| Example address create/update object:
   const addressObj = { "address_1": "6225 oak lane", "address_2": "suite 2", "city": "Denver", "zip": "65455", "state_id": 4, "country_id": 1 }
 
-  // ............| Example ordder create/update object:
+  // ............| Example order create/update object:
   const orderObj = { "internal_id": "Parker-123", "tax": 6.25, "final_total": 37.20, "open": true, "user_id": 1, "ship_id": 1 , "bill_id": 1, "ship_method": 1 }
 
+  // ............| Example order item create/update object:
+  const orderItemObj = { "order_id": 2, "qty": 2, "pre_tax_total": 27.32, "item_id": 1, "mat_id": 1, "size_id": 1 }
 
 
 //db and node echo
