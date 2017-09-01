@@ -1,31 +1,26 @@
-angular.module('app').controller('mainCtrl', function ($scope, authService) {
+angular.module('app').controller('adminCtrl', function ($scope, materialSrv, $interval) {
     //      ╔══════════════════════════════════════╗
     //      ║                TESTS                 ║
     //      ╚══════════════════════════════════════╝
-    $scope.mainCtrlTest = 'mainCtrl controller is connected and operational'
-    $scope.authServiceTest = authService.authServiceTest
+    $scope.adminCtrlTest = 'adminCtrl controller is connected and operational'
+    $scope.materialSrvTest = materialSrv.materialSrvTest
 
     //      ╔══════════════════════════════════════╗
     //      ║              VARIABLES               ║
     //      ╚══════════════════════════════════════╝
 
     //      ╔══════════════════════════════════════╗
-    //      ║            HELPER METHODS            ║
-    //      ╚══════════════════════════════════════╝
-    String.prototype.makeUpperCase = str => {
-        let uc = str.toLowerCase().split(' ').map(e => {
-            let wordSplit = e.split(''), tuc = wordSplit.splice(0, 1, e.charAt(0).toUpperCase())
-            return wordSplit.join('')
-        })
-        return uc.join(' ')
-    }
-
-    //      ╔══════════════════════════════════════╗
     //      ║                Magic                 ║
     //      ╚══════════════════════════════════════╝
-    $scope.logout = _ => {
-        console.log(`clicked`)
-        authService.logout()
-    }
+    // .....║ Material logic
+    $scope.createMat = (type, cb) => { materialSrv.createNewMat(type), cb(type) }
 
+    $scope.clearMatForm = type => {
+        document.getElementById("create-materials-form").reset()
+        $scope.matType = ""
+        document.getElementById("mat-type").focus()
+        $interval(_ => {
+            console.log(materialSrv.messageResponse)
+        }, 800, 10)
+    }
 })

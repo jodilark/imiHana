@@ -1,28 +1,34 @@
 angular.module('app', ['ui.router'])
     .config(($stateProvider, $urlRouterProvider) => {
         $urlRouterProvider.otherwise('/', "")
-        $stateProvider.state('home', {
+        $stateProvider
+        .state('home', {
             templateUrl: '../views/landing.html'
             , url: '/'
         })
-        $stateProvider.state('browse', {
+        .state('browse', {
             templateUrl: '../views/browse.html'
             , url: '/browse'
         })
-        $stateProvider.state('orders', {
+        .state('orders', {
             templateUrl: '../views/orderHistory.html'
             , url: '/orders'
         })
-        $stateProvider.state('cart', {
+        .state('cart', {
             templateUrl: '../views/cart.html'
             , url: '/cart'
         })
-        $stateProvider.state('checkout', {
+        .state('checkout', {
             templateUrl: '../views/checkout.html'
             , url: '/checkout'
         })
-        $stateProvider.state('confirmation', {
+        .state('confirmation', {
             templateUrl: '../views/confirmation.html'
             , url: '/confirmation'
+        })
+        .state('admin', {
+            templateUrl: '../views/admin.html'
+            , url: '/admin'
+            , controller: 'adminCtrl'
         })
     })

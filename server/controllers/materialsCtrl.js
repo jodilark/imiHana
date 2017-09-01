@@ -14,7 +14,7 @@ exports.getMat = ((req, res) => {
 // ............| create a new material
 exports.createNewMat = ((req, res) => {
     req.app.get('db').mats_Create_New(req.body.type).then(response => {
-        res.status(200).send(`New material ${req.body.type} was created successfully`)
+        res.status(200).send(`New material "${req.body.type}" was created successfully`)
     })
 });
 // ............| update a material by id

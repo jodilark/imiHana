@@ -1,0 +1,29 @@
+<!-- Outline:
+    need the ability to create/update/delete: sizes, materials, items
+     -->
+<main>
+    <h1>Admin</h1>
+    <details>
+        <ol class='tests'>
+            <li>{{adminCtrlTest}}</li>
+            <li>{{materialSrvTest}}</li>
+        </ol>
+    </details>
+    <section>
+        <header>
+            <h2>Materials</h2>
+        </header>
+        <article>
+            <h3>Create New Material</h3>
+            <form ng-submit="createMat(matType, clearMatForm)" id="create-materials-form">
+                <input id="mat-type" type="input" placeholder="Canvas, Parchment, Poster Paper..." ng-model="matType" required />
+                <input type="submit" value="Create" /><input type="reset" value="Clear" ng-click="matType = null" />
+            </form>
+            <p>{{matType}}</p>
+        </article>
+        <article>
+            <h3>Existing Materials</h3>
+            <div>Coming Soon...</div>
+        </article>
+    </section>
+</main>
