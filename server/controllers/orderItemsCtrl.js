@@ -43,7 +43,7 @@ exports.updateOrderItem = ((req, res) => {
 });
 // ............| delete order item by order item id
 exports.deleteOrderItem = ((req, res) => {
-    req.app.get('db').orderItems_Delete_ById().then(_ => {
+    req.app.get('db').orderItems_Delete_ById(req.params.id).then(_ => {
         res.status(200).send(`Order item was deleted successfully`)
     })
 });

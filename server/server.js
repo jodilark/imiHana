@@ -24,6 +24,8 @@ const countryCtrl = require('./controllers/countryCtrl')
 const addressCtrl = require('./controllers/addressCtrl')
 const ordersCtrl = require('./controllers/ordersCtrl')
 const orderItemsCtrl = require('./controllers/orderItemsCtrl')
+const itemMatsCtrl = require('./controllers/itemMatsCtrl')
+const itemSizesCtrl = require('./controllers/itemSizesCtrl')
 
 //      ╔══════════════════════════════════════╗
 //      ║              VARIABLES               ║
@@ -156,7 +158,19 @@ massive(config.dbURLString).then(db => app.set('db', db), console.log(`connected
   app.put('/api/orderItems/:id', orderItemsCtrl.updateOrderItem)
   app.delete('/api/orderItems/:id', orderItemsCtrl.deleteOrderItem)
   // ............| ITEM MATERIALS ENDPOINTS
+  app.get('/api/itemMats', itemMatsCtrl.getItemMatsList)
+  app.get('/api/itemMats/:id', itemMatsCtrl.getItemMatById)
+  app.get('/api/itemMats/item/:id', itemMatsCtrl.getItemMatByItemId)
+  app.post('/api/itemMats', itemMatsCtrl.createNewItemMat)
+  app.put('/api/itemMats/:id', itemMatsCtrl.updateItemMat)
+  app.delete('/api/itemMats/:id', itemMatsCtrl.deleteItemMat)
   // ............| ITEM SIZES ENDPOINTS
+  app.get('/api/itemSizes', itemSizesCtrl.getitemSizesList)
+  app.get('/api/itemSizes/:id', itemSizesCtrl.getitemSizeById)
+  app.get('/api/itemSizes/item/:id', itemSizesCtrl.getitemSizeByItemId)
+  app.post('/api/itemSizes', itemSizesCtrl.createNewitemSize)
+  app.put('/api/itemSizes/:id', itemSizesCtrl.updateitemSize)
+  app.delete('/api/itemSizes/:id', itemSizesCtrl.deleteitemSize)
   
   
   //      ╔══════════════════════════════════════╗
@@ -188,6 +202,11 @@ massive(config.dbURLString).then(db => app.set('db', db), console.log(`connected
   // ............| Example order item create/update object:
   const orderItemObj = { "order_id": 2, "qty": 2, "pre_tax_total": 27.32, "item_id": 1, "mat_id": 1, "size_id": 1 }
 
+  // ............| Example item mat create/update object:
+  const itemMatObj = { "item_id": 1, "mat_id": 1 }
+
+  // ............| Example item size create/update object:
+  const itemSizeObj = { "item_id": 1, "size_id": 1 }
 
 //db and node echo
 app.listen(port, _ => console.log(`listening on port ${port}`))
