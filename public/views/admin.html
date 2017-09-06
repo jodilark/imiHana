@@ -23,7 +23,11 @@
         </article>
         <article>
             <h3>Existing Materials</h3>
-            <div>Coming Soon...</div>
+            <select ng-model='selectedMat' ng-options="material.type for material in materials">
+                <option value=''>choose material</option>
+            </select>
+            <p>Selected ID: {{selectedMat}}</p>
+            <button ng-click="deleteMat(selectedMat.id)" ng-disabled="!selectedMat">Delete</button>
         </article>
     </section>
 </main>

@@ -52,8 +52,19 @@ angular.module('app').controller('adminCtrl', function ($scope, materialSrv, $in
         $scope.matType = "";
         document.getElementById("mat-type").focus();
         $interval(function (_) {
-            console.log(materialSrv.messageResponse);
-        }, 800, 10);
+            getMats();
+        }, 500, 1);
+    };
+
+    var getMats = function getMats(_) {
+        return materialSrv.getAllMats().then(function (response) {
+            return $scope.materials = response;
+        });
+    };
+    getMats();
+
+    $scope.deleteMat = function (id) {
+        return materialSrv.deleteMat(id, getMats);
     };
 });
 'use strict';
@@ -124,15 +135,51 @@ angular.module('app').service('materialSrv', function ($http) {
     //      ║              END POINTS              ║
     //      ╚══════════════════════════════════════╝
     this.createNewMat = function (type) {
-        // this.isTrueLuck = 'not any luck at all'
-        var data = { "type": type.makeUpperCase(type) };
+        var data = { "type": type.makeUpperCase(type) },
+            unique = true;
+        _this.matList.data.forEach(function (e) {
+            if (data.type === e.type) {
+                unique = false;
+                return alert('Material "' + e.type + '" already exists!');
+            }
+        });
+        if (unique === true) {
+            $http({
+                url: '/api/mats',
+                method: 'POST',
+                data: data
+            }).then(function (response) {
+                _this.messageResponse = response.data;
+                alert(response.data);
+            });
+        }
+    };
+
+    this.getAllMats = function (_) {
+        return $http.get('/api/mats').then(function (response) {
+            _this.matList = response;
+            return response.data.sort(function (a, b) {
+                var typeA = a.type.toUpperCase();
+                var typeB = b.type.toUpperCase();
+                if (typeA < typeB) {
+                    return -1;
+                }
+                if (typeA > typeB) {
+                    return 1;
+                }
+                return 0;
+            });
+        });
+    };
+
+    this.deleteMat = function (id, cb) {
         $http({
-            url: '/api/mats',
-            method: 'POST',
-            data: data
+            url: '/api/mats/' + id,
+            method: 'DELETE'
         }).then(function (response) {
             _this.messageResponse = response.data;
             alert(response.data);
+            cb();
         });
     };
 });

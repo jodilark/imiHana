@@ -20,7 +20,13 @@ angular.module('app').controller('adminCtrl', function ($scope, materialSrv, $in
         $scope.matType = ""
         document.getElementById("mat-type").focus()
         $interval(_ => {
-            console.log(materialSrv.messageResponse)
-        }, 800, 10)
+            getMats()
+        }, 500, 1)
     }
+
+    const getMats = _ => materialSrv.getAllMats().then(response => $scope.materials = response)
+    getMats()
+
+    $scope.deleteMat = id => materialSrv.deleteMat(id, getMats)
+
 })
