@@ -13,20 +13,30 @@ angular.module('app').controller('adminCtrl', function ($scope, materialSrv, $in
     //      ║                Magic                 ║
     //      ╚══════════════════════════════════════╝
     // .....║ Material logic
-    $scope.createMat = (type, cb) => { materialSrv.createNewMat(type), cb(type) }
-
-    $scope.clearMatForm = type => {
-        document.getElementById("create-materials-form").reset()
-        $scope.matType = ""
-        document.getElementById("mat-type").focus()
-        $interval(_ => {
-            getMats()
-        }, 500, 1)
+    $scope.materialInfo = {
+        sectionTitle: 'Materials'
+        , createTitle: 'Create New Material'
+        , formID: 'create-materials-form'
+        , inputField: {
+            id: "mat-type"
+            , placeholder: "Canvas, Parchment, Poster Paper..."
+        }
+        , methods: {
+            create: (type, cb) => {
+                materialSrv.createNewMat(type), cb(type)
+            }
+            , clearForm: type => {
+                document.getElementById($scope.materialInfo.formID).reset()
+                document.getElementById($scope.materialInfo.inputField.id).focus()
+                $interval(_ => {
+                    $scope.materialInfo.methods.getList()
+                }, 500, 1)
+            }
+            , getList: _ => materialSrv.getAllMats().then(response => $scope.materialInfo.listData = response)
+            , delete: id => materialSrv.deleteMat(id, $scope.materialInfo.methods.getList)
+        }
+        , existingTitle: "Existing Materials"
+        , optionPlaceholder: 'choose material'
     }
-
-    const getMats = _ => materialSrv.getAllMats().then(response => $scope.materials = response)
-    getMats()
-
-    $scope.deleteMat = id => materialSrv.deleteMat(id, getMats)
-
+    $scope.materialInfo.methods.getList()
 })

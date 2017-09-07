@@ -43,29 +43,38 @@ angular.module('app').controller('adminCtrl', function ($scope, materialSrv, $in
     //      ║                Magic                 ║
     //      ╚══════════════════════════════════════╝
     // .....║ Material logic
-    $scope.createMat = function (type, cb) {
-        materialSrv.createNewMat(type), cb(type);
+    $scope.materialInfo = {
+        sectionTitle: 'Materials',
+        createTitle: 'Create New Material',
+        formID: 'create-materials-form',
+        inputField: {
+            id: "mat-type",
+            placeholder: "Canvas, Parchment, Poster Paper..."
+        },
+        methods: {
+            create: function create(type, cb) {
+                materialSrv.createNewMat(type), cb(type);
+            },
+            clearForm: function clearForm(type) {
+                document.getElementById($scope.materialInfo.formID).reset();
+                document.getElementById($scope.materialInfo.inputField.id).focus();
+                $interval(function (_) {
+                    $scope.materialInfo.methods.getList();
+                }, 500, 1);
+            },
+            getList: function getList(_) {
+                return materialSrv.getAllMats().then(function (response) {
+                    return $scope.materialInfo.listData = response;
+                });
+            },
+            delete: function _delete(id) {
+                return materialSrv.deleteMat(id, $scope.materialInfo.methods.getList);
+            }
+        },
+        existingTitle: "Existing Materials",
+        optionPlaceholder: 'choose material'
     };
-
-    $scope.clearMatForm = function (type) {
-        document.getElementById("create-materials-form").reset();
-        $scope.matType = "";
-        document.getElementById("mat-type").focus();
-        $interval(function (_) {
-            getMats();
-        }, 500, 1);
-    };
-
-    var getMats = function getMats(_) {
-        return materialSrv.getAllMats().then(function (response) {
-            return $scope.materials = response;
-        });
-    };
-    getMats();
-
-    $scope.deleteMat = function (id) {
-        return materialSrv.deleteMat(id, getMats);
-    };
+    $scope.materialInfo.methods.getList();
 });
 'use strict';
 
@@ -181,6 +190,16 @@ angular.module('app').service('materialSrv', function ($http) {
             alert(response.data);
             cb();
         });
+    };
+});
+'use strict';
+
+angular.module('app').directive('adminCrudDir', function () {
+    return {
+        scope: {
+            dirData: '='
+        },
+        templateUrl: '../../views/adminCrud.html'
     };
 });
 //# sourceMappingURL=bundle.js.map

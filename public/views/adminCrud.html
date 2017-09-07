@@ -1,0 +1,21 @@
+<section>
+    <header>
+        <h2>{{dirData.sectionTitle}}</h2>
+    </header>
+    <article>
+        <h3>{{dirData.createTitle}}</h3>
+        <form ng-submit="dirData.methods.create(inputValue, dirData.methods.clearForm); inputValue = null" id="{{dirData.formID}}">
+            <input id="{{dirData.inputField.id}}" type="input" placeholder="{{dirData.inputField.placeholder}}" ng-model="inputValue" required />
+            <input type="submit" value="Create" /><input type="reset" value="Clear" ng-click="inputValue = null" />
+        </form>
+        <p>{{inputValue}}</p>
+    </article>
+    <article>
+        <h3>{{dirData.existingTitle}}</h3>
+        <select ng-model='selectedOption' ng-options="entry.type for entry in dirData.listData">
+                <option value=''>{{dirData.optionPlaceholder}}</option>
+            </select>
+        <p>Selected ID: {{selectedOption}}</p>
+        <button ng-click="dirData.methods.delete(selectedOption.id)" ng-disabled="!selectedOption">Delete</button>
+    </article>
+</section>

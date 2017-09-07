@@ -9,25 +9,7 @@
             <li>{{materialSrvTest}}</li>
         </ol>
     </details>
-    <section>
-        <header>
-            <h2>Materials</h2>
-        </header>
-        <article>
-            <h3>Create New Material</h3>
-            <form ng-submit="createMat(matType, clearMatForm)" id="create-materials-form">
-                <input id="mat-type" type="input" placeholder="Canvas, Parchment, Poster Paper..." ng-model="matType" required />
-                <input type="submit" value="Create" /><input type="reset" value="Clear" ng-click="matType = null" />
-            </form>
-            <p>{{matType}}</p>
-        </article>
-        <article>
-            <h3>Existing Materials</h3>
-            <select ng-model='selectedMat' ng-options="material.type for material in materials">
-                <option value=''>choose material</option>
-            </select>
-            <p>Selected ID: {{selectedMat}}</p>
-            <button ng-click="deleteMat(selectedMat.id)" ng-disabled="!selectedMat">Delete</button>
-        </article>
-    </section>
+    <hr>
+    <admin-crud-dir dir-data="materialInfo"></admin-crud-dir>
+    <hr>
 </main>
