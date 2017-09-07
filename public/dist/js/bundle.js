@@ -28,12 +28,14 @@ angular.module('app', ['ui.router']).config(function ($stateProvider, $urlRouter
 });
 'use strict';
 
-angular.module('app').controller('adminCtrl', function ($scope, materialSrv, $interval) {
+angular.module('app').controller('adminCtrl', function ($scope, materialSrv, sizeSrv, $interval) {
     //      ╔══════════════════════════════════════╗
     //      ║                TESTS                 ║
     //      ╚══════════════════════════════════════╝
     $scope.adminCtrlTest = 'adminCtrl controller is connected and operational';
     $scope.materialSrvTest = materialSrv.materialSrvTest;
+    // $scope.sizeSrvTest = "hello you bastard"
+    $scope.sizeSrvTest = sizeSrv.sizeSrvTest;
 
     //      ╔══════════════════════════════════════╗
     //      ║              VARIABLES               ║
@@ -75,6 +77,33 @@ angular.module('app').controller('adminCtrl', function ($scope, materialSrv, $in
         optionPlaceholder: 'choose material'
     };
     $scope.materialInfo.methods.getList();
+
+    // .....║ Sizes logic
+    $scope.sizesInfo = {
+        sectionTitle: 'Sizes',
+        createTitle: 'Create New Size',
+        formID: 'create-size-form',
+        inputField: {
+            id: "size-type",
+            placeholder: "12 x 17, 21 x 36"
+            // , methods: {
+            //     create: (type, cb) => {
+            //         materialSrv.createNewMat(type), cb(type)
+            //     }
+            //     , clearForm: type => {
+            //         document.getElementById($scope.materialInfo.formID).reset()
+            //         document.getElementById($scope.materialInfo.inputField.id).focus()
+            //         $interval(_ => {
+            //             $scope.materialInfo.methods.getList()
+            //         }, 500, 1)
+            //     }
+            //     , getList: _ => materialSrv.getAllMats().then(response => $scope.materialInfo.listData = response)
+            //     , delete: id => materialSrv.deleteMat(id, $scope.materialInfo.methods.getList)
+            // }
+        }, existingTitle: "Existing Sizes",
+        optionPlaceholder: 'choose size'
+        // $scope.materialInfo.methods.getList()
+    };
 });
 'use strict';
 
@@ -107,6 +136,16 @@ angular.module('app').controller('mainCtrl', function ($scope, authService) {
     $scope.logout = function (_) {
         console.log('clicked');
         authService.logout();
+    };
+});
+'use strict';
+
+angular.module('app').directive('adminCrudDir', function () {
+    return {
+        scope: {
+            dirData: '='
+        },
+        templateUrl: '../../views/adminCrud.html'
     };
 });
 'use strict';
@@ -194,12 +233,68 @@ angular.module('app').service('materialSrv', function ($http) {
 });
 'use strict';
 
-angular.module('app').directive('adminCrudDir', function () {
-    return {
-        scope: {
-            dirData: '='
-        },
-        templateUrl: '../../views/adminCrud.html'
+angular.module('app').service('sizeSrv', function ($http) {
+    var _this = this;
+
+    //      ╔══════════════════════════════════════╗
+    //      ║                TESTS                 ║
+    //      ╚══════════════════════════════════════╝
+    this.sizeSrvTest = 'the sizeSrv is connected';
+
+    //      ╔══════════════════════════════════════╗
+    //      ║              Variables               ║
+    //      ╚══════════════════════════════════════╝
+    this.messageResponse = null;
+    //      ╔══════════════════════════════════════╗
+    //      ║              END POINTS              ║
+    //      ╚══════════════════════════════════════╝
+    this.createNewMat = function (type) {
+        var data = { "type": type.makeUpperCase(type) },
+            unique = true;
+        _this.matList.data.forEach(function (e) {
+            if (data.type === e.type) {
+                unique = false;
+                return alert('Material "' + e.type + '" already exists!');
+            }
+        });
+        if (unique === true) {
+            $http({
+                url: '/api/mats',
+                method: 'POST',
+                data: data
+            }).then(function (response) {
+                _this.messageResponse = response.data;
+                alert(response.data);
+            });
+        }
+    };
+
+    this.getAllMats = function (_) {
+        return $http.get('/api/mats').then(function (response) {
+            _this.matList = response;
+            return response.data.sort(function (a, b) {
+                var typeA = a.type.toUpperCase();
+                var typeB = b.type.toUpperCase();
+                if (typeA < typeB) {
+                    return -1;
+                }
+                if (typeA > typeB) {
+                    return 1;
+                }
+                return 0;
+            });
+        });
+    };
+
+    this.deleteMat = function (id, cb) {
+        $http({
+            url: '/api/mats/' + id,
+            method: 'DELETE'
+        }).then(function (response) {
+            _this.messageResponse = response.data;
+            alert(response.data);
+            cb();
+        });
     };
 });
 //# sourceMappingURL=bundle.js.map
