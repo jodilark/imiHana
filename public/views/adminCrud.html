@@ -4,11 +4,13 @@
     </header>
     <article>
         <h3>{{dirData.createTitle}}</h3>
-        <form ng-submit="dirData.methods.create(inputValue, dirData.methods.clearForm); inputValue = null" id="{{dirData.formID}}">
-            <input id="{{dirData.inputField.id}}" type="input" placeholder="{{dirData.inputField.placeholder}}" ng-model="inputValue" required />
-            <input type="submit" value="Create" /><input type="reset" value="Clear" ng-click="inputValue = null" />
+        <form ng-submit="dirData.methods.create(inputValue, dirData.methods.clearForm); inputValue = {}" id="{{dirData.formID}}" ng-init="inputValue = {}">
+            <input ng-if="dirData.showSizeControls" id="{{dirData.widthInput.id}}" type="{{dirData.widthInput.type}}" min=0 step=.01 placeholder="{{dirData.widthInput.placeholder}}" ng-model="inputValue.two" required />
+            <input id="{{dirData.inputField.id}}" type="{{dirData.inputField.type}}" placeholder="{{dirData.inputField.placeholder}}" min=0 step=.01 ng-model="inputValue.one" required />
+            <input type="submit" value="Create" /><input type="reset" value="Clear" ng-click="inputValue = {}" />
         </form>
-        <p>{{inputValue}}</p>
+        <p>{{inputValue.one}}</p>
+        <p>{{inputValue.two}}</p>
     </article>
     <article>
         <h3>{{dirData.existingTitle}}</h3>

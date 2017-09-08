@@ -12,6 +12,7 @@ angular.module('app').service('materialSrv', function ($http) {
     //      ║              END POINTS              ║
     //      ╚══════════════════════════════════════╝
     this.createNewMat = (type) => {
+        type = type.one
         let data = { "type": type.makeUpperCase(type) }, unique = true
         this.matList.data.forEach(e => {
             if (data.type === e.type) {
