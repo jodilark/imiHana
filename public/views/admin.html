@@ -11,6 +11,26 @@
         </ol>
     </details>
     <hr>
+    <section>
+        <header>
+            <h2>{{itemInfo.sectionTitle}}</h2>
+        </header>
+        <article>
+            <h3>{{itemInfo.createTitle}}</h3>
+            <form ng-submit="itemInfo.methods.create(formData, itemInfo.methods.clearForm); formData = {}" id="{{itemInfo.formID}}" ng-init="formData = {}">
+                <input type="{{itemInfo.inputFields[0].type}}" ng-model="formData.name" id="{{itemInfo.inputFields[0].id}}" placeholder="{{itemInfo.inputFields[0].placeholder}}" required />
+                <input type="{{itemInfo.inputFields[1].type}}" ng-model="formData.description" id="{{itemInfo.inputFields[1].id}}" placeholder="{{itemInfo.inputFields[1].placeholder}}" required />
+                <input type="{{itemInfo.inputFields[2].type}}" ng-model="formData.price" id="{{itemInfo.inputFields[2].id}}" placeholder="{{itemInfo.inputFields[2].placeholder}}" min=0 step='.01' />
+                <input type="{{itemInfo.inputFields[3].type}}" ng-model="formData.forSale" id="{{itemInfo.inputFields[3].id}}" /><label>{{itemInfo.inputFields[3].placeholder}}</label>                
+                <input type="{{itemInfo.inputFields[4].type}}" ng-model="formData.url" id="{{itemInfo.inputFields[4].id}}" placeholder="{{itemInfo.inputFields[4].placeholder}}" />
+                <input type="{{itemInfo.inputFields[5].type}}" ng-model="formData.localFile" id="{{itemInfo.inputFields[5].id}}" placeholder="{{itemInfo.inputFields[5].placeholder}}" />
+                <br>
+                <input type="submit" value="Create" /><input type="reset" value="Clear" ng-click="formData = {}" />
+            </form>
+            <p>{{formData}}</p>
+        </article>
+    </section>
+    <hr>
     <admin-crud-dir dir-data="materialInfo"></admin-crud-dir>
     <hr>
     <admin-crud-dir dir-data="sizesInfo"></admin-crud-dir>

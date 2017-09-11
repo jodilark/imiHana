@@ -28,16 +28,6 @@ angular.module('app', ['ui.router']).config(function ($stateProvider, $urlRouter
 });
 'use strict';
 
-angular.module('app').directive('adminCrudDir', function () {
-    return {
-        scope: {
-            dirData: '='
-        },
-        templateUrl: '../../views/adminCrud.html'
-    };
-});
-'use strict';
-
 angular.module('app').controller('adminCtrl', function ($scope, materialSrv, sizeSrv, $interval) {
     //      ╔══════════════════════════════════════╗
     //      ║                TESTS                 ║
@@ -133,6 +123,52 @@ angular.module('app').controller('adminCtrl', function ($scope, materialSrv, siz
     $scope.sizesInfo.methods.getList();
 
     // .....║ Item logic
+    $scope.itemInfo = {
+        sectionTitle: 'Items',
+        createTitle: 'Create New Item',
+        formID: 'create-item-form',
+        inputFields: [{
+            id: "item-form-name",
+            placeholder: "name",
+            type: "text"
+        }, {
+            id: "item-form-description",
+            placeholder: "description",
+            type: "text"
+        }, {
+            id: "item-form-price",
+            placeholder: "price",
+            type: "number"
+        }, {
+            id: "item-form-forSale",
+            placeholder: "For Sale",
+            type: "checkbox"
+        }, {
+            id: "item-form-url",
+            placeholder: "image url",
+            type: "text"
+        }, {
+            id: "item-form-localFile",
+            placeholder: "description",
+            type: "file"
+        }],
+        methods: {
+            create: function create(type, cb) {
+                console.log('create item was fired');
+                console.log('type was: ', type);
+                cb(type);
+            },
+            clearForm: function clearForm(type) {
+                console.log('clear item form was fired');
+                console.log('type was: ', type);
+                document.getElementById($scope.itemInfo.formID).reset();
+                document.getElementById("item-form-name").focus();
+                // $interval(_ => {
+                //     $scope.sizesInfo.methods.getList()
+                // }, 500, 1)
+            }
+        }
+    };
 });
 'use strict';
 
@@ -165,6 +201,16 @@ angular.module('app').controller('mainCtrl', function ($scope, authService) {
     $scope.logout = function (_) {
         console.log('clicked');
         authService.logout();
+    };
+});
+'use strict';
+
+angular.module('app').directive('adminCrudDir', function () {
+    return {
+        scope: {
+            dirData: '='
+        },
+        templateUrl: '../../views/adminCrud.html'
     };
 });
 'use strict';
