@@ -1,4 +1,4 @@
-angular.module('app').controller('adminCtrl', function ($scope, materialSrv, sizeSrv, $interval) {
+angular.module('app').controller('adminCtrl', function ($scope, materialSrv, sizeSrv, itemSrv, $interval, Upload, $window) {
     //      ╔══════════════════════════════════════╗
     //      ║                TESTS                 ║
     //      ╚══════════════════════════════════════╝
@@ -9,6 +9,7 @@ angular.module('app').controller('adminCtrl', function ($scope, materialSrv, siz
     //      ╔══════════════════════════════════════╗
     //      ║              VARIABLES               ║
     //      ╚══════════════════════════════════════╝
+    var vm = this;
 
     //      ╔══════════════════════════════════════╗
     //      ║                Magic                 ║
@@ -127,13 +128,26 @@ angular.module('app').controller('adminCtrl', function ($scope, materialSrv, siz
             }
             , clearForm: type => {
                 console.log('clear item form was fired')
-                console.log('type was: ', type)
+                // console.log('type was: ', type)
                 document.getElementById($scope.itemInfo.formID).reset()
                 document.getElementById("item-form-name").focus()
                 // $interval(_ => {
                 //     $scope.sizesInfo.methods.getList()
                 // }, 500, 1)
             }
+            
         }
+    }
+    vm.submit = function(){ //function to call on form submit
+        if (vm.upload_form.file.$valid && vm.file) { //check if from is valid
+            itemSrv.upload(vm.file).then(response => {
+                //now send the other form data including the returned url
+                itemSrv.item({"name": vm.name, "description": vm.description, "price": vm.price, "forSale": vm.forSale, "imageUrl": response.url}).then(newResponse => {
+                    $scope.newImg = newResponse.data.url
+                    $scope.itemInfo.methods.clearForm()
+                    alert(`${response.originalName} was successfully uploaded!`)
+                })
+            }); //call upload function
+        }        
     }
 })

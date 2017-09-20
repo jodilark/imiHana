@@ -1,4 +1,4 @@
-angular.module('app', ['ui.router'])
+angular.module('app', ['ui.router', 'ngFileUpload'])
     .config(($stateProvider, $urlRouterProvider) => {
         $urlRouterProvider.otherwise('/', "")
         $stateProvider
@@ -29,6 +29,6 @@ angular.module('app', ['ui.router'])
         .state('admin', {
             templateUrl: '../views/admin.html'
             , url: '/admin'
-            , controller: 'adminCtrl'
+            , controller: 'adminCtrl as up'
         })
     })

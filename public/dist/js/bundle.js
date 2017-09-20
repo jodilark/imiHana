@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('app', ['ui.router']).config(function ($stateProvider, $urlRouterProvider) {
+angular.module('app', ['ui.router', 'ngFileUpload']).config(function ($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('/', "");
     $stateProvider.state('home', {
         templateUrl: '../views/landing.html',
@@ -23,12 +23,12 @@ angular.module('app', ['ui.router']).config(function ($stateProvider, $urlRouter
     }).state('admin', {
         templateUrl: '../views/admin.html',
         url: '/admin',
-        controller: 'adminCtrl'
+        controller: 'adminCtrl as up'
     });
 });
 'use strict';
 
-angular.module('app').controller('adminCtrl', function ($scope, materialSrv, sizeSrv, $interval) {
+angular.module('app').controller('adminCtrl', function ($scope, materialSrv, sizeSrv, itemSrv, $interval, Upload, $window) {
     //      ╔══════════════════════════════════════╗
     //      ║                TESTS                 ║
     //      ╚══════════════════════════════════════╝
@@ -39,6 +39,7 @@ angular.module('app').controller('adminCtrl', function ($scope, materialSrv, siz
     //      ╔══════════════════════════════════════╗
     //      ║              VARIABLES               ║
     //      ╚══════════════════════════════════════╝
+    var vm = this;
 
     //      ╔══════════════════════════════════════╗
     //      ║                Magic                 ║
@@ -160,13 +161,28 @@ angular.module('app').controller('adminCtrl', function ($scope, materialSrv, siz
             },
             clearForm: function clearForm(type) {
                 console.log('clear item form was fired');
-                console.log('type was: ', type);
+                // console.log('type was: ', type)
                 document.getElementById($scope.itemInfo.formID).reset();
                 document.getElementById("item-form-name").focus();
                 // $interval(_ => {
                 //     $scope.sizesInfo.methods.getList()
                 // }, 500, 1)
             }
+
+        }
+    };
+    vm.submit = function () {
+        //function to call on form submit
+        if (vm.upload_form.file.$valid && vm.file) {
+            //check if from is valid
+            itemSrv.upload(vm.file).then(function (response) {
+                //now send the other form data including the returned url
+                itemSrv.item({ "name": vm.name, "description": vm.description, "price": vm.price, "forSale": vm.forSale, "imageUrl": response.url }).then(function (newResponse) {
+                    $scope.newImg = newResponse.data.url;
+                    $scope.itemInfo.methods.clearForm();
+                    alert(response.originalName + ' was successfully uploaded!');
+                });
+            }); //call upload function
         }
     };
 });
@@ -227,6 +243,44 @@ angular.module('app').service('authService', function ($http) {
     this.logout = function () {
         return $http.get('/api/auth/logout').then(function (response) {
             return window.location.href = '/';
+        });
+    };
+});
+'use strict';
+
+angular.module('app').service('itemSrv', function ($http, Upload, $window) {
+    this.serviceTest = 'service is connected';
+
+    var vm = this;
+
+    vm.upload = function (file) {
+        return Upload.upload({
+            url: '/upload', //webAPI exposed to upload the file
+            data: { file: file //pass file as data, should be user ng-model
+            } }).then(function (resp) {
+            //upload function returns a promise
+            if (resp.data.error_code === 0) {
+                //validate success
+                // $window.alert(`Success! ${resp.config.data.file.name} was uploaded successfully and can be accessed here: ${resp.data.url}`);
+                return { originalName: resp.config.data.file.name, url: resp.data.url };
+            } else {
+                $window.alert('an error occurred');
+            }
+        }, function (resp) {
+            //catch error
+            console.log('Error status: ' + resp.status);
+            $window.alert('Error status: ' + resp.status);
+        });
+    };
+    vm.item = function (obj) {
+        console.log(obj);
+        return $http({
+            url: '/api/items',
+            method: 'POST',
+            data: obj
+        }).then(function (response) {
+            console.log("success from server: ", response);
+            return response;
         });
     };
 });

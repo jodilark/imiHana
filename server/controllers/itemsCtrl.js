@@ -11,9 +11,10 @@ exports.getItem = ((req, res) => {
         res.status(200).send(response)
     })
 });
-// ............| get all materials
+// ............| create a new item
 exports.createNewItem = ((req, res) => {
-    req.app.get('db').items_Create_New(req.body.name, req.body.description, req.body.price, req.body.for_sale, req.body.uri).then(_ => {
+    console.log(req.body)
+    req.app.get('db').items_Create_New(req.body.name, req.body.description, req.body.price, req.body.forSale, req.body.imageUrl).then(_ => {
         res.status(200).send(`Item has been created successfully`)
     })
 });
