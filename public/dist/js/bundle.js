@@ -302,6 +302,16 @@ angular.module('app').service('itemSrv', function ($http, Upload, $window) {
             return response;
         });
     };
+
+    vm.deleteItem = function (id, cb) {
+        return $http({
+            url: '/api/items/' + id,
+            method: 'DELETE'
+        }).then(function (response) {
+            alert(response.data);
+            cb();
+        });
+    };
 });
 'use strict';
 
