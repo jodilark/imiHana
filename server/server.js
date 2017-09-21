@@ -43,6 +43,7 @@ var itemImageUrl = ''
 const app = express()
 app.use(express.static('./public'))
 app.use('/node_modules/ng-file-upload/dist/', express.static(__dirname + './../node_modules/ng-file-upload/dist/'))
+app.use('/uploads/', express.static(__dirname + './../uploads/'))
 app.use(bodyParser.json())
 app.use(session({ resave: true, saveUninitialized: true, secret: config.sessionSecret }));
 app.use(passport.initialize());

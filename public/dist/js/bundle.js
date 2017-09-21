@@ -127,6 +127,8 @@ angular.module('app').controller('adminCtrl', function ($scope, materialSrv, siz
     $scope.itemInfo = {
         sectionTitle: 'Items',
         createTitle: 'Create New Item',
+        existingTitle: 'Existing Items',
+        optionPlaceholder: 'choose an item',
         formID: 'create-item-form',
         inputFields: [{
             id: "item-form-name",
@@ -154,25 +156,33 @@ angular.module('app').controller('adminCtrl', function ($scope, materialSrv, siz
             type: "file"
         }],
         methods: {
-            create: function create(type, cb) {
-                console.log('create item was fired');
-                console.log('type was: ', type);
-                cb(type);
-            },
             clearForm: function clearForm(type) {
                 console.log('clear item form was fired');
                 // console.log('type was: ', type)
                 document.getElementById($scope.itemInfo.formID).reset();
                 document.getElementById("item-form-name").focus();
-                // $interval(_ => {
-                //     $scope.sizesInfo.methods.getList()
-                // }, 500, 1)
+                vm.name = null, vm.description = null, vm.price = null, vm.forSale = null, vm.file = null;
+                $interval(function (_) {
+                    $scope.itemInfo.methods.getList();
+                }, 500, 1);
+            },
+            getList: function getList(_) {
+                return itemSrv.getAllItems().then(function (response) {
+                    $scope.itemInfo.listData = response.data.map(function (e) {
+                        return e;
+                    });
+                });
+            },
+            delete: function _delete(id) {
+                return itemSrv.deleteItem(id, $scope.itemInfo.methods.getList);
             }
-
         }
     };
+    $scope.itemInfo.methods.getList();
+
     vm.submit = function () {
         //function to call on form submit
+        console.log(vm.file);
         if (vm.upload_form.file.$valid && vm.file) {
             //check if from is valid
             itemSrv.upload(vm.file).then(function (response) {
@@ -280,6 +290,15 @@ angular.module('app').service('itemSrv', function ($http, Upload, $window) {
             data: obj
         }).then(function (response) {
             console.log("success from server: ", response);
+            return response;
+        });
+    };
+
+    vm.getAllItems = function (_) {
+        return $http({
+            url: '/api/items',
+            method: 'GET'
+        }).then(function (response) {
             return response;
         });
     };

@@ -17,15 +17,25 @@
         </header>
         <article>
             <h3>{{itemInfo.createTitle}}</h3>
-            <form name="up.upload_form" id="{{itemInfo.formID}}">
+            <form name="up.upload_form" id="{{itemInfo.formID}}" ng-submit="up.submit()">
                 <!-- <input type="text" ng-model="up.text" name="text" > -->
                 <input type="{{itemInfo.inputFields[0].type}}" ng-model="up.name" id="{{itemInfo.inputFields[0].id}}" placeholder="{{itemInfo.inputFields[0].placeholder}}" required />
                 <input type="{{itemInfo.inputFields[1].type}}" ng-model="up.description" id="{{itemInfo.inputFields[1].id}}" placeholder="{{itemInfo.inputFields[1].placeholder}}" required />
                 <input type="{{itemInfo.inputFields[2].type}}" ng-model="up.price" id="{{itemInfo.inputFields[2].id}}" placeholder="{{itemInfo.inputFields[2].placeholder}}" min=0 step='.01' />
                 <input type="{{itemInfo.inputFields[3].type}}" ng-model="up.forSale" id="{{itemInfo.inputFields[3].id}}" /><label>{{itemInfo.inputFields[3].placeholder}}</label>              
                 <input type="file" ngf-select ng-model="up.file" name="file" ngf-pattern="'image/*'" accept="image/*" ngf-max-size="20MB"><span ng-if="up.file !== undefined" ><img style="width: 100px;" ngf-thumbnail="up.file" /></span><br>
-                <button type="submit" ng-click="up.submit()">submit</button><input type="reset" value="Clear" ng-click="up.name = null; up.description = null; up.price = null; up.forSale = null; up.file = null" />
+                <input type="submit" value="Create"><input type="reset" value="Clear" ng-click="up.name = null; up.description = null; up.price = null; up.forSale = null; up.file = null" />
             </form>
+            <p>Name:{{up.name}} Description:{{up.description}} Price:{{up.price}} ForSale:{{up.forSale}} File:{{up.file.name}}</p>
+        </article>
+        <article>
+            <h3>{{itemInfo.existingTitle}}</h3>
+            <select ng-model='selectedOption' ng-options="entry.name for entry in itemInfo.listData">
+                    <option value=''>{{itemInfo.optionPlaceholder}}</option>
+                </select>
+                <aside><img src="{{selectedOption.uri}}" style="width: 100px" /></aside>
+            <p>Selected ID: {{selectedOption}}</p>
+            <button ng-click="itemInfo.methods.delete(selectedOption.id)" ng-disabled="!selectedOption">Delete</button>
         </article>
     </section>
     <hr>

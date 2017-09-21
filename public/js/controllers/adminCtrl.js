@@ -87,6 +87,8 @@ angular.module('app').controller('adminCtrl', function ($scope, materialSrv, siz
     $scope.itemInfo = {
         sectionTitle: 'Items'
         , createTitle: 'Create New Item'
+        , existingTitle: 'Existing Items'
+        , optionPlaceholder: 'choose an item'
         , formID: 'create-item-form'
         , inputFields: [
             {
@@ -121,24 +123,28 @@ angular.module('app').controller('adminCtrl', function ($scope, materialSrv, siz
             }
         ]
         , methods: {
-            create: (type, cb) => {
-                console.log('create item was fired')
-                console.log('type was: ', type)
-                cb(type)
-            }
-            , clearForm: type => {
+            clearForm: type => {
                 console.log('clear item form was fired')
                 // console.log('type was: ', type)
                 document.getElementById($scope.itemInfo.formID).reset()
                 document.getElementById("item-form-name").focus()
-                // $interval(_ => {
-                //     $scope.sizesInfo.methods.getList()
-                // }, 500, 1)
+                vm.name = null, vm.description = null, vm.price = null, vm.forSale = null, vm.file = null
+                $interval(_ => {
+                    $scope.itemInfo.methods.getList()
+                }, 500, 1)
             }
-            
+            , getList: _ => itemSrv.getAllItems().then(response => {
+                $scope.itemInfo.listData = response.data.map(e => {
+                    return e
+                })
+            })
+            , delete: id => itemSrv.deleteItem(id, $scope.itemInfo.methods.getList)
         }
     }
+    $scope.itemInfo.methods.getList()
+
     vm.submit = function(){ //function to call on form submit
+        console.log(vm.file)
         if (vm.upload_form.file.$valid && vm.file) { //check if from is valid
             itemSrv.upload(vm.file).then(response => {
                 //now send the other form data including the returned url
