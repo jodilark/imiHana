@@ -9,6 +9,7 @@ angular.module('app', ['ui.router', 'ngFileUpload'])
         .state('browse', {
             templateUrl: '../views/browse.html'
             , url: '/browse'
+            , controller: 'browseCtrl'
         })
         .state('orders', {
             templateUrl: '../views/orderHistory.html'
@@ -30,5 +31,9 @@ angular.module('app', ['ui.router', 'ngFileUpload'])
             templateUrl: '../views/admin.html'
             , url: '/admin'
             , controller: 'adminCtrl as up'
+        })
+        .state('details', {
+            templateUrl: '../views/itemDetails.html'
+            , url: '/details'
         })
     })

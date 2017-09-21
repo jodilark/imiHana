@@ -1,1 +1,35 @@
-<h1>I'm the browse page. Gaze upon me!</h1>
+<main>
+    <header>
+        <h1>Browse</h1>
+    </header>
+    <nav>i'm the nav section</nav>
+    <details>
+        <ol class='tests'>
+            <li>{{browseTest}}</li>
+        </ol>
+    </details>
+    <section>
+        <header>
+            <h2>Pieces</h2>
+        </header>
+        <hr>
+        <article ng-repeat="piece in browse.listData track by $index">
+            <figure>
+                <img src="{{piece.uri}}" alt="{{piece.name}}" style="width:300px">
+                <figcaption>
+                    <h3>Title: {{piece.name}}</h3>
+                    <summary>
+                        <h4>{{piece.description}}</h4>
+                        <h4>Price: ${{piece.price}} <span>USD</span></h4>
+                        <p>index: {{$index}}</p>
+                    </summary>
+                </figcaption>
+            </figure>
+            <aside>
+                <button ui-sref="details">See Details</button>
+                <button>Add to Cart</button>
+            </aside>
+            <hr>
+        </article>
+    </section>
+</main>

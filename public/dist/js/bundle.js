@@ -7,7 +7,8 @@ angular.module('app', ['ui.router', 'ngFileUpload']).config(function ($stateProv
         url: '/'
     }).state('browse', {
         templateUrl: '../views/browse.html',
-        url: '/browse'
+        url: '/browse',
+        controller: 'browseCtrl'
     }).state('orders', {
         templateUrl: '../views/orderHistory.html',
         url: '/orders'
@@ -24,6 +25,9 @@ angular.module('app', ['ui.router', 'ngFileUpload']).config(function ($stateProv
         templateUrl: '../views/admin.html',
         url: '/admin',
         controller: 'adminCtrl as up'
+    }).state('details', {
+        templateUrl: '../views/itemDetails.html',
+        url: '/details'
     });
 });
 'use strict';
@@ -195,6 +199,23 @@ angular.module('app').controller('adminCtrl', function ($scope, materialSrv, siz
             }); //call upload function
         }
     };
+});
+'use strict';
+
+angular.module('app').controller('browseCtrl', function ($scope, itemSrv) {
+    $scope.browseTest = "browseController is hooked up";
+
+    $scope.browse = {
+        methods: {
+            getList: function getList(_) {
+                return itemSrv.getAllItems().then(function (response) {
+                    // console.log(response)
+                    $scope.browse.listData = response.data;
+                });
+            }
+        }
+    };
+    $scope.browse.methods.getList();
 });
 'use strict';
 
