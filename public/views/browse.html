@@ -15,7 +15,7 @@
         <hr>
         <article ng-repeat="piece in browse.listData track by $index">
             <figure>
-                <img src="{{piece.uri}}" alt="{{piece.name}}" style="width:300px">
+                <img src="{{piece.uri}}" alt="{{piece.name}}" style="width:300px" ui-sref="details({id: piece.id})">
                 <figcaption>
                     <h3>Title: {{piece.name}}</h3>
                     <summary>
@@ -23,12 +23,14 @@
                         <h4>Price: ${{piece.price}} <span>USD</span></h4>
                         <h5>Testing: piece ID {{piece.id}}</h5>
                         <p>index: {{$index}}</p>
+                        <h5 ng-if="piece.inCart">In Cart {{piece.qty}}</h5>
                     </summary>
                 </figcaption>
             </figure>
             <aside>
                 <button ui-sref="details({id: piece.id})">See Details</button>
-                <button>Add to Cart</button>
+                <button ng-click="piece.inCart=true; browse.methods.addToCart(piece); piece.qty = piece.qty + 1">Add to Cart</button>
+                <!-- <button ng-click="piece.inCart=false">Remove from Cart</button> -->
             </aside>
             <hr>
         </article>

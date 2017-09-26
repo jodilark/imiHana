@@ -207,12 +207,25 @@ angular.module('app').controller('browseCtrl', function ($scope, itemSrv) {
     $scope.browseTest = "browseController is hooked up";
 
     $scope.browse = {
+        inCart: false,
+        cart: [],
         methods: {
             getList: function getList(_) {
                 return itemSrv.getAllItems().then(function (response) {
-                    // console.log(response)
                     $scope.browse.listData = response.data;
                 });
+            },
+            addToCart: function addToCart(obj) {
+                var unique = true;
+                var exists = $scope.browse.cart.filter(function (e) {
+                    if (e.id === obj.id) {
+                        console.log("already in cart!!!");
+                        unique = false;
+                        e.qty = e.qty++;
+                    }
+                });
+                if (unique === true) $scope.browse.cart.push(obj);
+                console.log("Cart: ", $scope.browse.cart);
             }
         }
     };
@@ -259,6 +272,16 @@ angular.module('app').controller('mainCtrl', function ($scope, authService) {
     $scope.logout = function (_) {
         console.log('clicked');
         authService.logout();
+    };
+});
+'use strict';
+
+angular.module('app').directive('adminCrudDir', function () {
+    return {
+        scope: {
+            dirData: '='
+        },
+        templateUrl: '../../views/adminCrud.html'
     };
 });
 'use strict';
@@ -494,16 +517,6 @@ angular.module('app').service('sizeSrv', function ($http) {
             alert(response.data);
             cb();
         });
-    };
-});
-'use strict';
-
-angular.module('app').directive('adminCrudDir', function () {
-    return {
-        scope: {
-            dirData: '='
-        },
-        templateUrl: '../../views/adminCrud.html'
     };
 });
 //# sourceMappingURL=bundle.js.map
