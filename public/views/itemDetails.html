@@ -12,11 +12,12 @@
                         <h4>{{myItem.description}}</h4>
                         <h4>Price: ${{myItem.price}} <span>USD</span></h4>
                         <h5>Testing: myItem ID {{myItem.id}}</h5>
+                        <h5 ng-if="myItem.InCart">Added to Cart</h5>
                     </summary>
                 </figcaption>
             </figure>
             <button ui-sref="browse">Go Back</button>
-            <button>Add to Cart</button>
+            <button ng-click="myItem.InCart=true; addToCart(myItem)">Add to Cart</button>
         </article>
     </section>
 </main>
