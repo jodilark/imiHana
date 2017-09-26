@@ -40,6 +40,10 @@ angular.module('app').service('itemSrv', function ($http, Upload, $window) {
         })
     }
 
+    vm.getProdDetails = id => {
+        return $http.get('/api/items/' + id)
+    }
+
     vm.deleteItem = (id, cb) => {
         return $http({
             url: '/api/items/' + id

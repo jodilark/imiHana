@@ -34,6 +34,7 @@ angular.module('app', ['ui.router', 'ngFileUpload'])
         })
         .state('details', {
             templateUrl: '../views/itemDetails.html'
-            , url: '/details'
+            , url: '/details/:id'
+            , controller: 'itemDetailsCtrl'
         })
     })

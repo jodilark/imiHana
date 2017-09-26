@@ -27,7 +27,8 @@ angular.module('app', ['ui.router', 'ngFileUpload']).config(function ($stateProv
         controller: 'adminCtrl as up'
     }).state('details', {
         templateUrl: '../views/itemDetails.html',
-        url: '/details'
+        url: '/details/:id',
+        controller: 'itemDetailsCtrl'
     });
 });
 'use strict';
@@ -217,6 +218,16 @@ angular.module('app').controller('browseCtrl', function ($scope, itemSrv) {
     };
     $scope.browse.methods.getList();
 });
+"use strict";
+
+angular.module("app").controller("itemDetailsCtrl", function ($scope, itemSrv, $stateParams) {
+    $scope.itemDetail = function (myID) {
+        itemSrv.getProdDetails(myID).then(function (response) {
+            $scope.myItem = response.data[0];
+        });
+    };
+    $scope.itemDetail($stateParams.id);
+});
 'use strict';
 
 angular.module('app').controller('mainCtrl', function ($scope, authService) {
@@ -248,16 +259,6 @@ angular.module('app').controller('mainCtrl', function ($scope, authService) {
     $scope.logout = function (_) {
         console.log('clicked');
         authService.logout();
-    };
-});
-'use strict';
-
-angular.module('app').directive('adminCrudDir', function () {
-    return {
-        scope: {
-            dirData: '='
-        },
-        templateUrl: '../../views/adminCrud.html'
     };
 });
 'use strict';
@@ -322,6 +323,10 @@ angular.module('app').service('itemSrv', function ($http, Upload, $window) {
         }).then(function (response) {
             return response;
         });
+    };
+
+    vm.getProdDetails = function (id) {
+        return $http.get('/api/items/' + id);
     };
 
     vm.deleteItem = function (id, cb) {
@@ -489,6 +494,16 @@ angular.module('app').service('sizeSrv', function ($http) {
             alert(response.data);
             cb();
         });
+    };
+});
+'use strict';
+
+angular.module('app').directive('adminCrudDir', function () {
+    return {
+        scope: {
+            dirData: '='
+        },
+        templateUrl: '../../views/adminCrud.html'
     };
 });
 //# sourceMappingURL=bundle.js.map

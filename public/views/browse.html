@@ -21,12 +21,13 @@
                     <summary>
                         <h4>{{piece.description}}</h4>
                         <h4>Price: ${{piece.price}} <span>USD</span></h4>
+                        <h5>Testing: piece ID {{piece.id}}</h5>
                         <p>index: {{$index}}</p>
                     </summary>
                 </figcaption>
             </figure>
             <aside>
-                <button ui-sref="details">See Details</button>
+                <button ui-sref="details({id: piece.id})">See Details</button>
                 <button>Add to Cart</button>
             </aside>
             <hr>
