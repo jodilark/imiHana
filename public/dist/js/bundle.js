@@ -203,12 +203,10 @@ angular.module('app').controller('adminCtrl', function ($scope, materialSrv, siz
 });
 'use strict';
 
-angular.module('app').controller('browseCtrl', function ($scope, itemSrv) {
+angular.module('app').controller('browseCtrl', function ($scope, itemSrv, cartSrv) {
     $scope.browseTest = "browseController is hooked up";
 
     $scope.browse = {
-        inCart: false,
-        cart: [],
         methods: {
             getList: function getList(_) {
                 return itemSrv.getAllItems().then(function (response) {
@@ -216,16 +214,7 @@ angular.module('app').controller('browseCtrl', function ($scope, itemSrv) {
                 });
             },
             addToCart: function addToCart(obj) {
-                var unique = true;
-                var exists = $scope.browse.cart.filter(function (e) {
-                    if (e.id === obj.id) {
-                        console.log("already in cart!!!");
-                        unique = false;
-                        e.qty = e.qty++;
-                    }
-                });
-                if (unique === true) $scope.browse.cart.push(obj);
-                console.log("Cart: ", $scope.browse.cart);
+                cartSrv.addToCart(obj);
             }
         }
     };
@@ -299,6 +288,28 @@ angular.module('app').service('authService', function ($http) {
         return $http.get('/api/auth/logout').then(function (response) {
             return window.location.href = '/';
         });
+    };
+});
+'use strict';
+
+angular.module('app').service('cartSrv', function ($http) {
+    var vm = this;
+    vm.cart = [];
+
+    vm.addToCart = function (obj) {
+        var unique = true;
+        var exists = vm.cart.filter(function (e) {
+            if (e.id === obj.id) {
+                console.log("already in cart!!!");
+                unique = false;
+                e.qty = e.qty + 1;
+            }
+        });
+        if (unique === true) {
+            obj.qty = 1;
+            vm.cart.push(obj);
+        }
+        console.log("Cart: ", vm.cart);
     };
 });
 'use strict';

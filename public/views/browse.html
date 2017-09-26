@@ -23,13 +23,13 @@
                         <h4>Price: ${{piece.price}} <span>USD</span></h4>
                         <h5>Testing: piece ID {{piece.id}}</h5>
                         <p>index: {{$index}}</p>
-                        <h5 ng-if="piece.inCart">In Cart {{piece.qty}}</h5>
+                        <h5 ng-if="piece.inCart">In Cart</h5>
                     </summary>
                 </figcaption>
             </figure>
             <aside>
                 <button ui-sref="details({id: piece.id})">See Details</button>
-                <button ng-click="piece.inCart=true; browse.methods.addToCart(piece); piece.qty = piece.qty + 1">Add to Cart</button>
+                <button ng-click="piece.inCart=true; browse.methods.addToCart(piece)">Add to Cart</button>
                 <!-- <button ng-click="piece.inCart=false">Remove from Cart</button> -->
             </aside>
             <hr>
