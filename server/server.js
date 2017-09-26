@@ -88,7 +88,7 @@ passport.use(new Auth0Strategy({
   domain: config.auth0.domain,
   clientID: config.auth0.clientID,
   clientSecret: config.auth0.clientSecret,
-  callbackURL: `http://${config.serverURL}:${config.port}/api/auth/callback`
+  callbackURL: `/api/auth/callback`
 },
   (accessToken, refreshToken, extraParams, profile, done) => {
     let db = app.get('db')
@@ -125,6 +125,9 @@ app.get('/api/auth/me', (req, res) => { //THIS IS WHATEVER VALUE WE GOT FROM use
   res.status(200).send(req.user);
 })
 app.get('/api/auth/logout', (req, res) => { thisUser = '', req.logout(), res.redirect('/') })
+app.get('/api/thisUser', (req, res) => {
+  res.send(thisUser)
+})
 
 //      ╔══════════════════════════════════════╗
 //      ║              END POINTS              ║

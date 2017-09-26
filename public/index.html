@@ -25,10 +25,11 @@
         <h1 ui-sref="home">Hello World this is where the navbar will go</h1>
         <button ui-sref='browse'>Click-bait for browse</button>
         <button ui-sref='orders' class='fa fa-github'>Order UP!</button>
-        <a href="/api/auth">Login|Sign-up</a>
+        <a href="/api/auth"><button>Login|Sign-up</button></a>
         <button ng-click='logout()'>Logout</button>
         <button ui-sref='cart'>Cart</button>
-        <button ui-sref='admin'>Admin</button>
+        <button ui-sref='admin' ng-if="isAdmin">Admin</button>
+        <button ng-click="getUser()">log user</button>
     </div>
 
     <!--╔══════════════════════════════════════╗-->

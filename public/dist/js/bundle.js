@@ -258,19 +258,16 @@ angular.module('app').controller('mainCtrl', function ($scope, authService) {
     //      ╔══════════════════════════════════════╗
     //      ║                Magic                 ║
     //      ╚══════════════════════════════════════╝
+    $scope.getUser = function (_) {
+        return authService.user().then(function (response) {
+            console.log(response);
+            $scope.isAdmin = response.admin;
+        });
+    };
+
     $scope.logout = function (_) {
         console.log('clicked');
         authService.logout();
-    };
-});
-'use strict';
-
-angular.module('app').directive('adminCrudDir', function () {
-    return {
-        scope: {
-            dirData: '='
-        },
-        templateUrl: '../../views/adminCrud.html'
     };
 });
 'use strict';
@@ -284,6 +281,11 @@ angular.module('app').service('authService', function ($http) {
     //      ╔══════════════════════════════════════╗
     //      ║              END POINTS              ║
     //      ╚══════════════════════════════════════╝
+    this.user = function (_) {
+        return $http.get('/api/thisUser').then(function (response) {
+            return response.data;
+        });
+    };
     this.logout = function () {
         return $http.get('/api/auth/logout').then(function (response) {
             return window.location.href = '/';
@@ -528,6 +530,16 @@ angular.module('app').service('sizeSrv', function ($http) {
             alert(response.data);
             cb();
         });
+    };
+});
+'use strict';
+
+angular.module('app').directive('adminCrudDir', function () {
+    return {
+        scope: {
+            dirData: '='
+        },
+        templateUrl: '../../views/adminCrud.html'
     };
 });
 //# sourceMappingURL=bundle.js.map

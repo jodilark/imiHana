@@ -23,6 +23,11 @@ angular.module('app').controller('mainCtrl', function ($scope, authService) {
     //      ╔══════════════════════════════════════╗
     //      ║                Magic                 ║
     //      ╚══════════════════════════════════════╝
+    $scope.getUser = _ => authService.user().then(response => {
+        console.log(response)
+        $scope.isAdmin = response.admin
+    })
+
     $scope.logout = _ => {
         console.log(`clicked`)
         authService.logout()
